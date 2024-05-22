@@ -1,5 +1,8 @@
 package com.alura.screenmatch.modelos;
 
+import com.alura.screenmatch.excepcion.ErrorConvercionDuracionExcepcion;
+import com.google.gson.annotations.SerializedName;
+
 public class Titulo {
     private String nombre;
     private int fechaDeLanzamiento;
@@ -7,6 +10,21 @@ public class Titulo {
     private double sumaDeLasEvaluaciones;
     private int totalDeEvaluaciones;
     private int duracionEnMinutos;
+
+    public Titulo(TituloOmdb miTituloOmdb) {
+        this.nombre =  miTituloOmdb.title();
+        this.fechaDeLanzamiento = Integer.valueOf(miTituloOmdb.year());
+        if (miTituloOmdb.runtime().contains("N/A")){
+            throw new ErrorConvercionDuracionExcepcion("No pude convertir la duracion" +
+                    " porque contiene un N/A");
+        }
+        this.duracionEnMinutos = Integer.valueOf(
+                miTituloOmdb.runtime().substring(0,3).replace(" ",""));
+    }
+
+    public Titulo() {
+
+    }
 
     public String getNombre() {
         return nombre;
@@ -57,4 +75,12 @@ public class Titulo {
     public double calculaMediaEvaluaciones(){
         return sumaDeLasEvaluaciones / totalDeEvaluaciones;
     }
+
+    @Override
+    public String toString() {
+        return  "(nombre=" + nombre +
+                ", fechaDeLanzamiento= " + fechaDeLanzamiento+
+                ", duracion= "+ duracionEnMinutos+")";
+    }
 }
+

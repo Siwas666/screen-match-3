@@ -5,6 +5,14 @@ import com.alura.screenmatch.calculos.Clasificable;
 public class Pelicula extends Titulo implements Clasificable {
     private String director;
 
+    public Pelicula(TituloOmdb miTituloOmdb) {
+        super(miTituloOmdb);
+    }
+
+    public Pelicula() {
+        super();
+    }
+
     public String getDirector() {
         return director;
     }
